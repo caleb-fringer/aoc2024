@@ -48,9 +48,30 @@
 (defn similarity-score-one [[l r]]
   (abs (- l r)))
 
+; Calculate total score for part one
 (defn part-one [m]
   (let [l (sort (get m :left))
         r (sort (get m :right))]
-    (reduce + (map similarity-score-one (map vector l r)))))
+    (->> l
+         (map vector r)
+         (map similarity-score-one)
+         (reduce +))))
 
-(part-one input)
+(part-one input) ; 2113135
+
+; Calculate similarity score for part two
+; l is the key value from the left map, freq-l is the frequency of l in the
+; l-freqs map, and r-freqs is the map of right frequencies
+(defn similarity-score-two [l freq-l r-freqs]
+  (* l freq-l (or (get r-freqs l) 0)))
+
+; Calculate total score for part two
+(defn part-two [m]
+  (let [l-freqs (frequencies (get m :left))
+        r-freqs (frequencies (get m :right))]
+    (->> l-freqs
+         (map (fn [[l freq-l]]
+                (similarity-score-two l freq-l r-freqs)))
+         (reduce +))))
+
+(part-two input) ; 19097157

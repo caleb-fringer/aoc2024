@@ -10,12 +10,14 @@
 ; A report is gradually increasing if for every level at position n in the report
 ; report[n-1] + 1 <= report[n] <= report[n-1] + 3
 (defn increasing? [[a b]]
-  (and (<= (+ a 1) b) (<= b (+ a 3))))
+  (and (<= (+ a 1) b)
+       (<= b (+ a 3))))
 
 ; A report is gradually decreasing if for every level at position n in the report
 ; report[n-1] - 3 <= report[n] <= report[n-1] - 1
 (defn decreasing? [[a b]]
-  (and (<= (- a 3) b) (<= b (- a 1))))
+  (and (<= (- a 3) b)
+       (<= b (- a 1))))
 
 ; Approach: Read the list into memory, parsing each line into a vector of ints
 ; Map the list of reports to a new list where 1 represents a safe report and 0

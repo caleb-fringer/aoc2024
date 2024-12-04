@@ -23,7 +23,21 @@
        (map #(subvec % 1))
        (map #(mapv parse-long %))))
 
-(defn part-one [coll]
-  (reduce + (map (fn [[a b]] (* a b)) (extract-muls coll))))
+(defn part-one [s]
+  (reduce + (map
+             (fn [[a b]] (* a b))
+             (extract-muls s))))
 
 (part-one input) ; 181345830
+
+(defn extract-enabled [s]
+  (->> (re-seq #"do\(\).*?don't\(\)" s)
+       (apply str)))
+
+(defn part-two [s]
+  (reduce + (map
+             (fn [[a b]] (* a b))
+             (extract-muls
+              (extract-enabled (str "do()" s))))))
+
+(part-two input) ; 98729041

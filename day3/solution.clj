@@ -41,3 +41,20 @@
               (extract-enabled (str "do()" s))))))
 
 (part-two input) ; 98729041
+
+; This is my failed attempt at using look-ahead/look-behind
+(def mul-regex-two #"(?<=do\(\))mul\((\d{1,3}),(\d{1,3})\)")
+; ChatGPT gave me this
+(def mul-regex-two #"(?<=do\(\)(?:(?!dont\(\)).)*?)mul\(\d{1,3},\d{1,3}\)")
+
+(defn extract-muls-two [s]
+  (->> (re-seq mul-regex (str "do()" s))
+       (map #(subvec % 1))
+       (map #(mapv parse-long %))))
+
+(defn part-three [s]
+  (reduce + (map
+             (fn [[a b]] (* a b))
+             (extract-muls-two (str "do()" s)))))
+
+(part-three input)

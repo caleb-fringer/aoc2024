@@ -7,22 +7,22 @@
 (defn not-blank? [s]
   (not (str/blank? s)))
 
-(defn rule? [s]
-  (when-let [rule (re-matches #"(\d+)\|(\d+)" s)]
+(defn rule? [line]
+  (when-let [rule (re-matches #"(\d+)\|(\d+)" line)]
     (mapv parse-long (rest rule))))
 
+(rule? "97|43")
 (rule? "97,43,56")
 (rule? "")
 
-(defn update? [s]
-  (when (re-matches #"\d+(?:,\d+)*" s)
-    (mapv parse-long (re-seq #"\d+" s))))
+(defn update? [line]
+  (when (re-matches #"\d+(?:,\d+)*" line)
+    (mapv parse-long (re-seq #"\d+" line))))
 
-(defn process-line [s coll]
-  (cond (when-let [[x y] (rule? s)]
-          (assoc-in coll [:rules x] y))
-        (when-let [update-list (update? s)]
-          (update-in coll [:updates] conj update-list))))
+(defn process-line [rules-and-updates line]
+  (if-let [[x y] (rule? line)]
+    (assoc-in rules-and-updates [:rules x] y)
+    (update-in rules-and-updates [:updates] conj (update? line))))
 
 (defn read-input [filename]
   (when (.exists (File. filename))

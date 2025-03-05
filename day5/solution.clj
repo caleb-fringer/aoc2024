@@ -64,8 +64,11 @@
 ; { 47: [53, 13, ]}
 ; I'm gonna write some code to read the input and make it into a hashmap
 (ns aoc2024.day5.solution
-  :require [clojure.string :as str])
+  (:import (java.io File))
+  (:require [clojure.string :as str]))
 
 (defn parse-input [filename]
-  (when (.exists filename)
+  (when (File. exists
     (str/split-lines (slurp filename))))
+
+(parse-input "test.txt")

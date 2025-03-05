@@ -11,10 +11,6 @@
   (when-let [rule (re-matches #"(\d+)\|(\d+)" line)]
     (mapv parse-long (rest rule))))
 
-(rule? "97|43")
-(rule? "97,43,56")
-(rule? "")
-
 (defn update? [line]
   (when (re-matches #"\d+(?:,\d+)*" line)
     (mapv parse-long (re-seq #"\d+" line))))
@@ -31,4 +27,4 @@
      {:rules {} :updates []}
      (filter not-blank? (str/split-lines (slurp filename))))))
 
-(read-input "test.txt")
+(def input (read-input "test.txt"))

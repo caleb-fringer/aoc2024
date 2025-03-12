@@ -42,6 +42,8 @@ test each subsequent element for membership in the set which could be O(1)
 I suspect there's a way to optimize checking if any of the dependencies
 appear afterwards.
 
+# Solution
+
 What happens if I do this in the reverse order?
 Suppose I do the following. What if I make a set A that contains all of the
 elements in the list, and a mapping of LHS -> Set(all RHS assignments).
